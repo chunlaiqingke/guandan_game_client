@@ -20,6 +20,11 @@ export class hallScene extends Component {
 
     }
 
+    onLoad() {
+        this.nickname_label.string = myglobal.playerData.nickName
+        this.gobal_count.string = ":" + myglobal.playerData.gobalCount
+    }
+
     onButtonClick(event: any, customData: any) { 
         switch(customData){
             case "create_room":

@@ -72,4 +72,12 @@ export class SocketIOManager {
     request_wxLogin(req: any, callback: any) {
         this._request("wxlogin", req, callback)
     }
+
+    request_createroom(req: any, callback: any) {
+        this._request("createroom_req", req, callback)
+    }
+
+    request_joinroom(req: any, callback: any) {
+        this._request("joineroom_req", req, callback)
+    }
 }
