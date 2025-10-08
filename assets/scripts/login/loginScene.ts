@@ -17,6 +17,7 @@ export class login extends Component {
     onButtonClick(event: any, customData: string) {
         switch (customData) {
             case 'wx_login':
+                console.log("login click:" + JSON.stringify(myglobal.playerData));
                 myglobal.socket.request_wxLogin(myglobal.playerData, function(err,result){
                     //请求返回
                     //先隐藏等待UI
@@ -28,7 +29,7 @@ export class login extends Component {
 
                     console.log("login sucess" + JSON.stringify(result))
                     myglobal.playerData.gobalCount = result.goldcount
-                    Director.instance.loadScene("hallScene")
+                    Director.instance.loadScene("hall")
                 }.bind(this));
                 break;
             default:

@@ -1,4 +1,5 @@
 import io from 'socket.io-client/dist/socket.io.js';
+import eventLister from './eventListener';
 
 export class SocketIOManager {
 
@@ -6,9 +7,9 @@ export class SocketIOManager {
 
     private _socket: any;
 
-    private eventRegister = {};
+    private eventListener = eventLister({});
 
-    private responseMap = {};
+    private responseMap = new Map<number, Function>();
 
     private callindex = 0;
     constructor() {
@@ -35,6 +36,23 @@ export class SocketIOManager {
         this._socket.on('disconnect', (reason: string) => {
             console.log('连接断开，原因:', reason);
         });
+
+        this._socket.on("notify",(res) =>{
+            console.log("on notify cmd:" + JSON.stringify(res))
+                
+            if(this.responseMap.has(res.callBackIndex)){
+                console.log("responseMap:" + JSON.stringify(this.responseMap))
+                var callback = this.responseMap.get(res.callBackIndex)
+                if(callback){
+                    callback(res.result,res.data)
+                }
+            }else{
+                console.log("else:" + JSON.stringify(this.responseMap))
+                var type = res.type
+                this.eventListener.fire(type, res.data)
+            }
+
+        })
     }
 
     _sendMsg(cmd: string, req: any, callindex) {
@@ -43,30 +61,8 @@ export class SocketIOManager {
 
     _request(cmd: string, req: any, callback: (data: any) => void) {
         this.callindex ++;
-        this.responseMap[this.callindex] = callback;
+        this.responseMap.set(this.callindex, callback);
         this._sendMsg(cmd, req, this.callindex);
-    }
-
-    on(event: string, callback: (data: any) => void) {
-        if (this.eventRegister.hasOwnProperty(event)) {
-            this.eventRegister[event].push(callback);
-        } else {
-            this.eventRegister[event] = [callback];
-        }
-    }
-
-    fire(event: string) {
-        if (this.eventRegister.hasOwnProperty(event)) {
-            var methodList = this.eventRegister[event];
-            for (var i = 0; i < methodList.length; i++) {
-                var handle = methodList[i];
-                var args = [];
-                for (var j = 1; j < arguments.length; j++) {
-                    args.push(arguments[j]);
-                }
-                handle.apply(this, args);
-            }
-        }
     }
 
     request_wxLogin(req: any, callback: any) {
