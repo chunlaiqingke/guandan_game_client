@@ -30,12 +30,14 @@ export class hallScene extends Component {
             case "create_room":
                 var creator_Room = instantiate(this.creatroom_prefabs)
                 creator_Room.parent = this.node 
-                creator_Room.setSiblingIndex(100)
+                creator_Room.setPosition(0,0,0)
+                creator_Room.zIndex = 10
                 break
             case "join_room":
                 var join_Room = instantiate(this.joinroom_prefabs)
                 join_Room.parent = this.node 
-                join_Room.setSiblingIndex(100)
+                join_Room.setPosition(0,0,0)
+                join_Room.zIndex = 10
                 break
             default:
                 break
