@@ -7,6 +7,8 @@ export class PlayerData {
     public avatarUrl : string;
     public gobalCount : number;
     public masterAccountId : string;
+    public bottom : number;
+    public rate : number;
 
     public getRandomStr(count: number) {
         let str: string = '';
@@ -24,5 +26,7 @@ export class PlayerData {
         this.avatarUrl = str   //随机一个头像
         this.gobalCount = 0
         this.masterAccountId = "0"
+        this.bottom = 0
+        this.rate = 1
     }
 }
