@@ -77,6 +77,10 @@ export class SocketIOManager {
         this._request("joineroom_req", req, callback)
     }
 
+    request_enter_room(req: any, callback: any) {
+        this._request("enterroom_req", req, callback)
+    }
+
     onRoomChangeState(callback: any) {
         if(callback){
             this.eventListener.on("room_state_notify",callback)

@@ -7,3 +7,5 @@ const RoomState = {
     ROOM_SHOWBOTTOMCARD:5, //显示底牌
     ROOM_PLAYING:6,     //出牌阶段  
 };
+
+const isopen_sound = 1;

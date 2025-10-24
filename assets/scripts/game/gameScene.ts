@@ -1,4 +1,4 @@
-import { _decorator, Component, Label, Node, Prefab } from 'cc';
+import { _decorator, assert, AudioSource, Component, Label, Node, Prefab, instantiate } from 'cc';
 import myglobal from '../myglobal';
 const { ccclass, property } = _decorator;
 
@@ -15,8 +15,11 @@ export class gameScene extends Component {
     public player_node_prefabs: Prefab = null;
     @property(Node)
     public players_seat_pos: Node = null;
+    @property(AudioSource)
+    public audio_source: AudioSource = null;
 
     private playerNodeList: Node[] = [];
+    private playerdata_list_pos: Map<number, number> = new Map<number, number>();
     private roomState: number;
     
     protected onLoad(): void {
@@ -63,6 +66,87 @@ export class gameScene extends Component {
             }
             gameui_node.emit("unchoose_card_event",event)
         }.bind(this))
+
+        myglobal.socket.request_enter_room({},function(err: number ,result: any){
+            console.log("enter_room_resp"+ JSON.stringify(result))
+            if(err!=0){
+               console.log("enter_room_resp err:"+err)
+            }else{
+            
+              //enter_room成功
+              //notify ={"seatid":1,"playerdata":[{"accountid":"2117836","nick_name":"tiny543","avatarUrl":"http://xxx","goldcount":1000}]}
+                var seatid = result.seatindex //自己在房间里的seatid
+                this.playerdata_list_pos = []  //3个用户创建一个空用户列表
+                this.setPlayerSeatPos(seatid)
+
+                var playerdata_list = result.playerdata
+                var roomid = result.roomid
+                this.roomid_label.string = "房间号:" + roomid
+                
+                for(var i=0;i<playerdata_list.length;i++){
+                    //consol.log("this----"+this)
+                    this.addPlayerNode(playerdata_list[i])
+                }
+
+                if(isopen_sound){
+                    const as = this.node.getComponent(AudioSource);
+                    assert(as, "audio source is null");
+                    this.audio_source = as;
+                    this.audio_source.play();
+                 }
+            }
+            var gamebefore_node = this.node.getChildByName("gamebeforeUI")
+            gamebefore_node.emit("init")
+        }.bind(this))
+    }
+
+    setPlayerSeatPos(seat_index: number) {
+        if (seat_index < 1 || seat_index > 4) {
+            console.log("add viewer: "+seat_index)
+            return;
+        }
+
+        console.log("setPlayerSeatPos seat_index:" + seat_index)
+
+        //界面位置转化成逻辑位置
+        switch (seat_index) {
+            case 1: 
+                this.playerdata_list_pos.set(1, 0)
+                this.playerdata_list_pos.set(2, 1)
+                this.playerdata_list_pos.set(3, 2)
+                this.playerdata_list_pos.set(4, 3)
+                break;
+            case 2:
+                this.playerdata_list_pos.set(2, 0)
+                this.playerdata_list_pos.set(3, 1)
+                this.playerdata_list_pos.set(4, 2)
+                this.playerdata_list_pos.set(1, 3)
+                break;
+            case 3:
+                this.playerdata_list_pos.set(3, 0)
+                this.playerdata_list_pos.set(4, 1)
+                this.playerdata_list_pos.set(1, 2)
+                this.playerdata_list_pos.set(2, 3)
+                break;
+            case 4:
+                this.playerdata_list_pos.set(4, 0)
+                this.playerdata_list_pos.set(1, 1)
+                this.playerdata_list_pos.set(2, 2)
+                this.playerdata_list_pos.set(3, 3)
+                break;
+            default:
+                break;
+        }
+    }
+
+    addPlayerNode(player_data: any) {
+        var playernode_inst = instantiate(this.player_node_prefabs)
+        playernode_inst.parent = this.node
+        this.playerNodeList.push(playernode_inst)
+
+        var index = this.playerdata_list_pos.get(player_data.seatindex)
+        playernode_inst.position = this.players_seat_pos.children[index].position
+        playernode_inst.getComponent("player_node").initData(player_data)
     }
 }
 
