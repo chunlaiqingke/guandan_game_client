@@ -1,5 +1,7 @@
 import { _decorator, assert, AudioSource, Component, Label, Node, Prefab, instantiate } from 'cc';
 import myglobal from '../myglobal';
+import { player_node } from './prefabs/player_node';
+
 const { ccclass, property } = _decorator;
 
 @ccclass('gameScene')
@@ -146,7 +148,7 @@ export class gameScene extends Component {
 
         var index = this.playerdata_list_pos.get(player_data.seatindex)
         playernode_inst.position = this.players_seat_pos.children[index].position
-        playernode_inst.getComponent("player_node").initData(player_data)
+        playernode_inst.getComponent(player_node).init_data(player_data, index)
     }
 }
 
