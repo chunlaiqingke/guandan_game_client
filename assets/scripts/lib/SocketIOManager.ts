@@ -81,6 +81,32 @@ export class SocketIOManager {
         this._request("enterroom_req", req, callback)
     }
 
+    request_startGame(callback: any) {
+
+    }
+
+    request_ready() {
+        
+    }
+
+    onPlayerJoinRoom(callback: any) {
+        this.eventListener.on("player_joinroom_notify", callback)
+    }
+
+    onPlayerReady(callback: any) {
+        this.eventListener.on("player_ready_notify", callback)
+    }
+
+    onGameStart(callback: any) {
+        if(callback){
+           this.eventListener.on("gameStart_notify",callback)
+        }
+    }
+
+    onChangeHouseManager(callback: any) {
+        
+    }
+
     onRoomChangeState(callback: any) {
         if(callback){
             this.eventListener.on("room_state_notify",callback)

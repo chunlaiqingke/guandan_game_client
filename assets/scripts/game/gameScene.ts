@@ -100,6 +100,33 @@ export class gameScene extends Component {
             var gamebefore_node = this.node.getChildByName("gamebeforeUI")
             gamebefore_node.emit("init")
         }.bind(this))
+
+        myglobal.socket.onPlayerJoinRoom(function (join_playerdata) { 
+            this.addPlayerNode(join_playerdata)
+        }.bind(this))
+
+        myglobal.socket.onPlayerReady(function (data) { 
+            for (var i = 0; i < this.player_node_list.length; i++) {
+                var node = this.player_node_list[i]
+                if (node) {
+                    node.emit("player_ready_notify", data)
+                }
+            }
+        }.bind(this))
+
+        myglobal.socket.onGameStart(function (data) {
+            for (var i = 0; i < this.player_node_list.length; i++) {
+                var node = this.player_node_list[i]
+                if (node) {
+                    node.emit("game_start_notify", data)
+                }
+            }
+            //隐藏gamebeforeUI节点
+            var gamebeforeUI = this.node.getChildByName("gamebeforeUI")
+            if (gamebeforeUI) {
+                gamebeforeUI.active = false
+            }
+        }.bind(this))
     }
 
     setPlayerSeatPos(seat_index: number) {

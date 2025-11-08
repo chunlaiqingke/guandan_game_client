@@ -9,6 +9,7 @@ export class PlayerData {
     public masterAccountId : string;
     public bottom : number;
     public rate : number;
+    public houseManagerId : string;
 
     public getRandomStr(count: number) {
         let str: string = '';
