@@ -86,7 +86,7 @@ export class SocketIOManager {
     }
 
     request_ready() {
-        
+
     }
 
     onPlayerJoinRoom(callback: any) {
@@ -111,5 +111,17 @@ export class SocketIOManager {
         if(callback){
             this.eventListener.on("room_state_notify",callback)
         }
+    }
+
+    onPushCards(callback: any) {
+
+    }
+
+    onCanChuCard(callback: any) {
+
+    }
+
+    onOtherPlayerChuCard(callback: any) {
+        
     }
 }

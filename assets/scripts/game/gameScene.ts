@@ -177,5 +177,13 @@ export class gameScene extends Component {
         playernode_inst.position = this.players_seat_pos.children[index].position
         playernode_inst.getComponent(player_node).init_data(player_data, index)
     }
+
+    /*
+     //通过accountid获取用户出牌放在gamescene的位置 
+     做法：先放3个节点在gameacene的场景中cardsoutzone(012)
+    */
+    public getUserOutCardPosByAccount(accountid){
+        
+    }
 }
 
