@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, Prefab, Label, AudioSource, Vec3, instantiate } from 'cc';
 import myglobal from '../myglobal';
+import { isopen_sound } from '../defines';
 const { ccclass, property } = _decorator;
 
 @ccclass('gamingUI')
