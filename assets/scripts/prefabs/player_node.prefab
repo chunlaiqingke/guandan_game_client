@@ -50,10 +50,13 @@
     "_components": [
       {
         "__id__": 54
+      },
+      {
+        "__id__": 56
       }
     ],
     "_prefab": {
-      "__id__": 56
+      "__id__": 58
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -284,8 +287,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 29.99837458053691,
-      "height": 25.200000000000003
+      "width": 30,
+      "height": 25.2
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -323,7 +326,7 @@
     "_string": "小明",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 17.4609375,
+    "_actualFontSize": 15,
     "_fontSize": 15,
     "_fontFamily": "Arial",
     "_lineHeight": 20,
@@ -443,7 +446,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 69.21736052852349,
+      "width": 69.22119140625,
       "height": 18.9
     },
     "_anchorPoint": {
@@ -482,7 +485,7 @@
     "_string": "ID:123456",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 17.4609375,
+    "_actualFontSize": 15,
     "_fontSize": 15,
     "_fontFamily": "Arial",
     "_lineHeight": 15,
@@ -602,7 +605,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 33.36729236577181,
+      "width": 33.369140625,
       "height": 18.9
     },
     "_anchorPoint": {
@@ -641,7 +644,7 @@
     "_string": "2345",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 17.4609375,
+    "_actualFontSize": 15,
     "_fontSize": 15,
     "_fontFamily": "Arial",
     "_lineHeight": 15,
@@ -1355,6 +1358,24 @@
     "fileId": "f2xsepl+1J94o3tLVRKhZE"
   },
   {
+    "__type__": "b66d43y4pZGt7PEzTk4w+QJ",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 57
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "fclWIY+bdI959OoS9Hgm2Z"
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -1363,6 +1384,7 @@
       "__id__": 0
     },
     "fileId": "961g+VubNKxqLDaAAi49f8",
+    "instance": null,
     "targetOverrides": null
   }
 ]

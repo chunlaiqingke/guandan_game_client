@@ -1,6 +1,7 @@
 import { _decorator, assert, AudioSource, Component, Label, Node, Prefab, instantiate } from 'cc';
 import myglobal from '../myglobal';
 import { player_node } from './prefabs/player_node';
+import { isopen_sound, RoomState } from '../defines';
 
 const { ccclass, property } = _decorator;
 
@@ -27,17 +28,16 @@ export class gameScene extends Component {
     protected onLoad(): void {
         this.di_label.string = "底" + myglobal.playerData.bottom.toString()
         this.beishu_label.string = "倍数" + myglobal.playerData.rate.toString()
-        this.roomState = RoomState.ROOM_INVALID;
+        this.roomState = RoomState.ROOM_INVALID
 
         //监听，给其他玩家发牌
         this.node.on("pushcard_other_event",function(){
-            console.log("gamescene pushcard_other_event")
             for(var i=0;i<this.playerNodeList.length;i++){
-                    var node = this.playerNodeList[i]
-                    if(node){
-                    //给playernode节点发送事件
-                        node.emit("push_card_event")
-                    }
+                var node = this.playerNodeList[i]
+                if(node){
+                //给playernode节点发送事件
+                    node.emit("push_card_event")
+                }
             }
         }.bind(this))
 
@@ -49,10 +49,9 @@ export class gameScene extends Component {
         }.bind(this))
 
         this.node.on("choose_card_event",function(event: any){
-            console.log("--------choose_card_event-----------")
+            
             var gameui_node =  this.node.getChildByName("gameingUI")
             if(gameui_node==null){
-               console.log("get childer name gameingUI")
                return
             }
             gameui_node.emit("choose_card_event",event)
@@ -60,17 +59,15 @@ export class gameScene extends Component {
         }.bind(this))
 
         this.node.on("unchoose_card_event",function(event: any){
-            console.log("--------unchoose_card_event-----------")
+            
             var gameui_node =  this.node.getChildByName("gameingUI")
             if(gameui_node==null){
-               console.log("get childer name gameingUI")
                return
             }
             gameui_node.emit("unchoose_card_event",event)
         }.bind(this))
 
         myglobal.socket.request_enter_room({},function(err: number ,result: any){
-            console.log("enter_room_resp"+ JSON.stringify(result))
             if(err!=0){
                console.log("enter_room_resp err:"+err)
             }else{
@@ -78,7 +75,7 @@ export class gameScene extends Component {
               //enter_room成功
               //notify ={"seatid":1,"playerdata":[{"accountid":"2117836","nick_name":"tiny543","avatarUrl":"http://xxx","goldcount":1000}]}
                 var seatid = result.seatindex //自己在房间里的seatid
-                this.playerdata_list_pos = []  //3个用户创建一个空用户列表
+                this.playerdata_list_pos = new Map<number, number>()  //3个用户创建一个空用户列表
                 this.setPlayerSeatPos(seatid)
 
                 var playerdata_list = result.playerdata
@@ -90,12 +87,12 @@ export class gameScene extends Component {
                     this.addPlayerNode(playerdata_list[i])
                 }
 
-                if(isopen_sound){
-                    const as = this.node.getComponent(AudioSource);
-                    assert(as, "audio source is null");
-                    this.audio_source = as;
-                    this.audio_source.play();
-                 }
+                // if(isopen_sound){
+                //     const as = this.node.getComponent(AudioSource);
+                //     assert(as, "audio source is null");
+                //     this.audio_source = as;
+                //     this.audio_source.play();
+                // }
             }
             var gamebefore_node = this.node.getChildByName("gamebeforeUI")
             gamebefore_node.emit("init")
@@ -175,7 +172,8 @@ export class gameScene extends Component {
 
         var index = this.playerdata_list_pos.get(player_data.seatindex)
         playernode_inst.position = this.players_seat_pos.children[index].position
-        playernode_inst.getComponent(player_node).init_data(player_data, index)
+        var node = playernode_inst.getComponent("player_node") as player_node
+        node.init_data(player_data, index)
     }
 
     /*

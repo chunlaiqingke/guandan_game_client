@@ -1,4 +1,4 @@
-const RoomState = {
+export const RoomState = {
     ROOM_INVALID: -1,
     ROOM_WAITREADY: 1,  //等待游戏
     ROOM_GAMESTART: 2,  //开始游戏
@@ -8,4 +8,4 @@ const RoomState = {
     ROOM_PLAYING:6,     //出牌阶段  
 };
 
-const isopen_sound = 1;
+export const isopen_sound = 1;
