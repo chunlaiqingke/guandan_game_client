@@ -181,7 +181,26 @@ export class gameScene extends Component {
      做法：先放3个节点在gameacene的场景中cardsoutzone(012)
     */
     public getUserOutCardPosByAccount(accountid){
-        
+        console.log("getUserOutCardPosByAccount accountid:"+accountid)
+        for(var i=0;i<this.playerNodeList.length;i++){
+            var node = this.playerNodeList[i]
+            if(node){
+                //获取节点绑定的组件
+                var node_script = node.getComponent("player_node") as player_node
+                //如果accountid和player_node节点绑定的accountid相同
+                //接获取player_node的子节点
+                if(node_script.accountId===accountid){
+                  var seat_node = this.players_seat_pos.children[node_script.seatIndex]
+                  var index_name = "cardsoutzone"+node_script.seatIndex
+                  //console.log("getUserOutCardPosByAccount index_name:"+index_name)
+                  var out_card_node = seat_node.getChildByName(index_name)
+                  //console.log("OutZone:"+ out_card_node.name)
+                  return out_card_node
+                }
+            }
+        }
+
+        return null
     }
 }
 
